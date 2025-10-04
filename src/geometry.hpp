@@ -26,6 +26,8 @@ protected:
 	static void _bind_methods();
 
 public:
+	std::atomic<bool> created;
+	std::atomic<bool> registered;
 	bool disabled = false;
 
 	SteamAudioGeometry();

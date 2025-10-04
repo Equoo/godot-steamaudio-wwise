@@ -19,7 +19,7 @@ opts.Update(env)
 
 # Local dependency paths, adapt them to your setup
 steamaudio_headers_path = "libs/steamaudio/wwise/src/SoundEnginePlugin"
-phonon_headers_path = "libs/steamaudio/wwise/include/phonon"
+phonon_headers_path = "libs/steamaudio/unity/include/phonon"
 godot_headers_path = "libs/godot-cpp/gdextension/"
 cpp_bindings_path = "libs/godot-cpp/"
 
@@ -73,7 +73,6 @@ if env["platform"] == "windows":
     if env["target"] in ("template_debug"):
             env.Append(CPPDEFINES=["_DEBUG"])
             env.Append(LINKFLAGS=["-DEBUG"])
-            env.Append(CCFLAGS=["/MTd"])
     else:
         if env["target"] in ("editor"):
             env.Append(CPPDEFINES=["NDEBUG"])
@@ -88,7 +87,6 @@ if env["platform"] == "windows":
 elif env["platform"] == "macos":
     if env["target"] in ("template_debug"):
         env.Append(CPPDEFINES=["_DEBUG"])
-
         env.Append(LINKFLAGS=["-DEBUG"])
     else:
         if env["target"] in ("editor"):
@@ -161,17 +159,17 @@ sources = Glob("src/*.cpp")
 #env.Append(LIBS=["SteamAudioWwiseFX"])
     
 
-if env["target"] in ("editor", "template_debug"):
-    if env["platform"] == "windows":
-        env.Append(LIBS=["msacm32", "ws2_32"])
+#if env["target"] in ("editor", "template_debug"):
+#    if env["platform"] == "windows":
+#        env.Append(LIBS=["msacm32", "ws2_32"])
 
-if env["target"] == "editor" and env["platform"] == "linux":
-    env.Append(LIBS=["tbb"])
+#if env["target"] == "editor" and env["platform"] == "linux":
+#    env.Append(LIBS=["tbb"])
 
-if env["platform"] == "windows":
-    env.Append(LIBS=["advapi32", "user32", "ole32"])
-if env["platform"] == "linux":
-    env.Append(LIBS=["pthread", "dl"])
+#if env["platform"] == "windows":
+#    env.Append(LIBS=["advapi32", "user32", "ole32"])
+#if env["platform"] == "linux":
+#    env.Append(LIBS=["pthread", "dl"])
 
 if env["platform"] == "windows":
     library = env.SharedLibrary(

@@ -11,34 +11,41 @@
 #include <algorithm>
 #include <godot_cpp/variant/utility_functions.hpp>
 
-void SteamAudioServer::tick() {
-	if (Engine::get_singleton()->is_editor_hint()) {
+void SteamAudioServer::tick()
+{
+	if (Engine::get_singleton()->is_editor_hint())
+	{
 		return;
 	}
-	if (!self->is_global_state_init.load()) {
+	if (!self->is_global_state_init.load())
+	{
 		return;
 	}
-	if (self->listener == nullptr) {
+	if (self->listener == nullptr)
+	{
 		return;
 	}
 
 	SteamAudio::log(SteamAudio::log_debug, "tick");
 
-	if (!is_refl_thread_processing.load()) {
+	if (!is_refl_thread_processing.load())
+	{
 		iplSceneCommit(self->global_state.scene);
 	}
 
 	SteamAudio::log(SteamAudio::log_debug, "tick: committed scene");
 
-	self->global_state.listener_coords =
-			ipl_coords_from(self->listener->get_global_transform());
+	self->global_state.listener_coords = ipl_coords_from(self->listener->get_global_transform());
 
-	for (auto ls : self->local_states) {
-		if (ls->src.player == nullptr) {
-			UtilityFunctions::push_warning(
-					"local state has empty player, not updating simulation state");
+	for (auto ls : self->local_states)
+	{
+		if (ls->src.player == nullptr)
+		{
+			UtilityFunctions::push_warning("local state has empty player, not updating simulation state");
+			continue;
 		}
-		if (!ls->src.player->is_playing()) {
+		if (!ls->src.player->is_playing())
+		{
 			continue;
 		}
 
@@ -71,22 +78,21 @@ void SteamAudioServer::tick() {
 		inputs.numOcclusionSamples = ls->cfg.occ_samples;
 		inputs.numTransmissionRays = ls->cfg.transm_rays;
 
-		if (ls->cfg.is_air_absorp_on) {
-			inputs.directFlags = static_cast<IPLDirectSimulationFlags>(
-					inputs.directFlags |
-					IPL_DIRECTSIMULATIONFLAGS_AIRABSORPTION);
+		if (ls->cfg.is_air_absorp_on)
+		{
+			inputs.directFlags =
+					static_cast<IPLDirectSimulationFlags>(inputs.directFlags | IPL_DIRECTSIMULATIONFLAGS_AIRABSORPTION);
 		}
 
-		if (ls->cfg.is_dist_attn_on) {
+		if (ls->cfg.is_dist_attn_on)
+		{
 			inputs.directFlags = static_cast<IPLDirectSimulationFlags>(
-					inputs.directFlags |
-					IPL_DIRECTSIMULATIONFLAGS_DISTANCEATTENUATION);
+					inputs.directFlags | IPL_DIRECTSIMULATIONFLAGS_DISTANCEATTENUATION);
 		}
-		if (ls->cfg.is_occlusion_on) {
+		if (ls->cfg.is_occlusion_on)
+		{
 			inputs.directFlags = static_cast<IPLDirectSimulationFlags>(
-					inputs.directFlags |
-					IPL_DIRECTSIMULATIONFLAGS_OCCLUSION |
-					IPL_DIRECTSIMULATIONFLAGS_TRANSMISSION);
+					inputs.directFlags | IPL_DIRECTSIMULATIONFLAGS_OCCLUSION | IPL_DIRECTSIMULATIONFLAGS_TRANSMISSION);
 		}
 
 		SteamAudio::log(SteamAudio::log_debug, "tick: setting inputs");
@@ -96,18 +102,20 @@ void SteamAudioServer::tick() {
 
 	IPLSimulationSharedInputs shared_inputs{};
 	shared_inputs.listener = self->global_state.listener_coords;
-	iplSimulatorSetSharedInputs(self->global_state.sim,
-			IPL_SIMULATIONFLAGS_DIRECT, &shared_inputs);
+	iplSimulatorSetSharedInputs(self->global_state.sim, IPL_SIMULATIONFLAGS_DIRECT, &shared_inputs);
 	iplSimulatorRunDirect(self->global_state.sim);
 
 	SteamAudio::log(SteamAudio::log_debug, "tick: direct sim complete");
 
-	for (auto ls : self->local_states) {
-		if (ls->src.player == nullptr) {
-			UtilityFunctions::push_warning(
-					"local state has empty player, not updating simulation state");
+	for (auto ls : self->local_states)
+	{
+		if (ls->src.player == nullptr)
+		{
+			UtilityFunctions::push_warning("local state has empty player, not updating simulation state");
+			continue;
 		}
-		if (!ls->src.player->is_playing()) {
+		if (!ls->src.player->is_playing())
+		{
 			continue;
 		}
 
@@ -115,17 +123,21 @@ void SteamAudioServer::tick() {
 		iplSourceGetOutputs(ls->src.src, IPL_SIMULATIONFLAGS_DIRECT, &outputs);
 		ls->direct_outputs = outputs.direct;
 	}
+	SteamAudio::log(SteamAudio::log_debug, vformat("Feur: %d", (is_refl_thread_processing.load() ? 1 : 0)).utf8().get_data());
 
 	if (is_refl_thread_processing.load()) {
 		SteamAudio::log(SteamAudio::log_debug, "tick: done, skipping reflections");
 		return;
 	}
 
+		SteamAudio::log(SteamAudio::log_debug, "tick: debug1");
 	global_state.refl_ir_lock.lock();
+		SteamAudio::log(SteamAudio::log_debug, "tick: debug2");
 	for (auto ls : local_states) {
 		if (ls->src.player == nullptr) {
 			UtilityFunctions::push_warning(
 					"local state has empty player, not updating simulation state");
+			continue;
 		}
 		if (!ls->src.player->is_playing()) {
 			continue;
@@ -139,12 +151,16 @@ void SteamAudioServer::tick() {
 		iplSourceGetOutputs(ls->src.src, IPL_SIMULATIONFLAGS_REFLECTIONS, &outputs);
 		ls->refl_outputs = outputs.reflections;
 	}
+	SteamAudio::log(SteamAudio::log_debug, "tick: debug3");
 	global_state.refl_ir_lock.unlock();
+	SteamAudio::log(SteamAudio::log_debug, "tick: debug4");
 
-	for (auto ls : self->local_states) {
+	for (auto ls : self->local_states)
+	{
 		if (ls->src.player == nullptr) {
 			UtilityFunctions::push_warning(
 					"local state has empty player, not updating simulation state");
+			continue;
 		}
 		if (!ls->src.player->is_playing()) {
 			continue;
@@ -171,6 +187,7 @@ void SteamAudioServer::tick() {
 
 		iplSourceSetInputs(ls->src.src, IPL_SIMULATIONFLAGS_REFLECTIONS, &inputs);
 	}
+	SteamAudio::log(SteamAudio::log_debug, "tick: debug5");
 
 	shared_inputs = IPLSimulationSharedInputs{};
 	shared_inputs.listener = global_state.listener_coords;
@@ -251,7 +268,7 @@ void SteamAudioServer::run_refl_sim() {
 		if (local_states_have_changed.load()) {
 			local_states_have_changed.store(false);
 			is_refl_thread_processing.store(false);
-			return;
+			continue;
 		}
 		SteamAudio::log(SteamAudio::log_debug, "running reflection sim");
 		iplSimulatorRunReflections(global_state.sim);

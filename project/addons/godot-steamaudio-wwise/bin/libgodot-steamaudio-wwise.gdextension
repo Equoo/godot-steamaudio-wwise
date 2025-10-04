@@ -6,7 +6,6 @@ compatibility_minimum = 4.3
 [libraries]
 
 windows.x86_64.debug = "res://addons/godot-steamaudio-wwise/bin/libgodot-steamaudio-wwise.windows.template_debug.x86_64.dll"
-windows.x86_64.release = "res://addons/godot-steamaudio-wwise/bin/libgodot-steamaudio-wwise.windows.template_release.x86_64.dll"
 
 [icons]
 
@@ -19,12 +18,6 @@ SteamAudioWwiseDynamicGeometry = "res://addons/godot-steamaudio-wwise/icons/stea
 [dependencies]
 
 windows.x86_64.debug = {
-    "res://addons/godot-steamaudio-wwise/bin/phonon.dll": "",
-    "res://addons/godot-steamaudio-wwise/bin/phonon.lib": "",
-    "res://addons/godot-steamaudio-wwise/bin/TrueAudioNext.dll": "",
-    "res://addons/godot-steamaudio-wwise/bin/GPUUtilities.dll": ""
-}
-windows.x86_64.release = {
     "res://addons/godot-steamaudio-wwise/bin/phonon.dll": "",
     "res://addons/godot-steamaudio-wwise/bin/phonon.lib": "",
     "res://addons/godot-steamaudio-wwise/bin/TrueAudioNext.dll": "",

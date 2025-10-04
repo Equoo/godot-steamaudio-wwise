@@ -2,7 +2,7 @@
 
 BUILDING:
 
-use MSVC on windows for steamaudio-wwise
+DO NOT MSVC on windows for steamaudio-wwise
 use_static_cpp=yes
 
 

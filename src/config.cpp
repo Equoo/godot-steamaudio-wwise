@@ -4,7 +4,7 @@
 #include "server.hpp"
 #include "steam_audio.hpp"
 
-SteamAudio::GodotSteamAudioLogLevel SteamAudioConfig::log_level = SteamAudio::log_info;
+SteamAudio::GodotSteamAudioLogLevel SteamAudioConfig::log_level = SteamAudio::log_debug;
 float SteamAudioConfig::hrtf_volume = 1.0f;
 int SteamAudioConfig::max_ambisonics_order = 1;
 int SteamAudioConfig::max_num_occ_samples = 64;
