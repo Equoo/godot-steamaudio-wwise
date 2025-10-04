@@ -4,13 +4,13 @@ compile_flags.txt
 
 *.pdb
 *.os
-src/*.obj
-src/*.o
+*.obj
+*.o
+*.so*
+*.dll
+*.ilk
+*.exp
+*.lib
+*.dylib
 .sconsign.dblite
-project/addons/godot-steam-audio/bin/*.so*
-project/addons/godot-steam-audio/bin/*.dll
-project/addons/godot-steam-audio/bin/*.ilk
-project/addons/godot-steam-audio/bin/*.exp
-project/addons/godot-steam-audio/bin/*.lib
-project/addons/godot-steam-audio/bin/*.dylib
 src/gen/*
