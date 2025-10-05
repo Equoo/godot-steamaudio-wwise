@@ -8,6 +8,7 @@
 #include "material.hpp"
 #include "player.hpp"
 #include "server.hpp"
+#include "wwise.hpp"
 #include "stream.hpp"
 
 #include <gdextension_interface.h>
@@ -18,6 +19,7 @@
 using namespace godot;
 
 SteamAudioServer *srv;
+SteamAudioWwiseBridge *wwise_bridge;
 
 void init_ext(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE && p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
@@ -38,6 +40,8 @@ void init_ext(ModuleInitializationLevel p_level) {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SERVERS) {
 		GDREGISTER_CLASS(SteamAudioServer);
 		srv = memnew(SteamAudioServer);
+		GDREGISTER_CLASS(SteamAudioWwiseBridge);
+		wwise_bridge = memnew(SteamAudioWwiseBridge);
 	}
 }
 

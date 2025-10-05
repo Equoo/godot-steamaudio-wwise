@@ -39,6 +39,7 @@ environment = SubResource("Environment_gdnyc")
 camera_attributes = SubResource("CameraAttributesPhysical_v0408")
 
 [node name="SteamAudioConfig" type="SteamAudioConfig" parent="."]
+global_log_level = 1
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
@@ -62,6 +63,8 @@ shape = SubResource("CapsuleShape3D_j0ktp")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="AkListener3D" type="AkListener3D" parent="Player/Camera3D"]
 
 [node name="SteamAudioListener" type="SteamAudioListener" parent="Player/Camera3D"]
 

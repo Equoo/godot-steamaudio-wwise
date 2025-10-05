@@ -2,9 +2,10 @@
 #include "godot_cpp/classes/engine.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "server.hpp"
+#include "wwise.hpp"
 #include "steam_audio.hpp"
 
-SteamAudio::GodotSteamAudioLogLevel SteamAudioConfig::log_level = SteamAudio::log_debug;
+SteamAudio::GodotSteamAudioLogLevel SteamAudioConfig::log_level = SteamAudio::log_info;
 float SteamAudioConfig::hrtf_volume = 1.0f;
 int SteamAudioConfig::max_ambisonics_order = 1;
 int SteamAudioConfig::max_num_occ_samples = 64;
@@ -69,6 +70,8 @@ void SteamAudioConfig::ready_internal() {
 	// Initialize global state
 	SteamAudioServer::get_singleton()->get_global_state();
 	set_physics_process(true);
+
+	SteamAudioWwiseBridge::get_singleton()->initialize();
 }
 
 void SteamAudioConfig::process_internal(double delta) {

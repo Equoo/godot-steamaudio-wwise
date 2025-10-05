@@ -2,11 +2,10 @@
 
 BUILDING:
 
-DO NOT MSVC on windows for steamaudio-wwise
-use_static_cpp=yes
+MSVC make the extension crash
 
-
-scons platform=windows target=template_debug debug_symbols=true wwise_sdk=../SDK precision=double use_static_cpp=yes
+scons platform=windows target=template_debug wwise_sdk=../SDK precision=double debug_symbols=yes use_mingw=yes
+scons platform=windows target=template_release wwise_sdk=../SDK precision=double use_mingw=yes
 
 
 

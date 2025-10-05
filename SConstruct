@@ -21,48 +21,24 @@ opts.Update(env)
 steamaudio_headers_path = "libs/steamaudio/wwise/src/SoundEnginePlugin"
 phonon_headers_path = "libs/steamaudio/unity/include/phonon"
 godot_headers_path = "libs/godot-cpp/gdextension/"
+wwise_godot_headers_path = "libs/wwise-godot/addons/Wwise/native/src/"
 cpp_bindings_path = "libs/godot-cpp/"
 
 # Wwise dependency paths
 wwise_sdk_headers_path = env["wwise_sdk"] + "/include/"
-wwise_sdk_libs_path = ""
 steamaudio_libs_path = "libs/steamaudio/lib"
 
 if env["platform"] == "windows":
     steamaudio_libs_path += "/windows-x64"
     env.Append(LIBS=["phonon"])
-    if env["target"] == "template_debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     steamaudio_libs_path += "/osx"
-    #env.Append(LIBS=["libphonon.dylib"])
-    if env["target"] == "template_debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Debug/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Release/lib/"
+    env.Append(LIBS=["libphonon.dylib"])
 
 if env["platform"] == "linux":
     steamaudio_libs_path += "/linux-x64"
-    #env.Append(LIBS=["libphonon.so"])
-    if env["target"] == "template_debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
-
-if env["platform"] == "ios" and not env["ios_simulator"]:
-    if env["target"] == "template_debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphoneos/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
-
-if env["platform"] == "ios" and env["ios_simulator"]:
-    if env["target"] == "template_debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphonesimulator/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
+    env.Append(LIBS=["libphonon.so"])
 
 if env["target"] == "template_debug":
     env.Append(CPPDEFINES=["TEMPLATE_DEBUG"])
@@ -71,8 +47,8 @@ elif env["target"] == "template_release":
 
 if env["platform"] == "windows":
     if env["target"] in ("template_debug"):
-            env.Append(CPPDEFINES=["_DEBUG"])
-            env.Append(LINKFLAGS=["-DEBUG"])
+        env.Append(CPPDEFINES=["_DEBUG"])
+        env.Append(LINKFLAGS=["-DEBUG"])
     else:
         if env["target"] in ("editor"):
             env.Append(CPPDEFINES=["NDEBUG"])
@@ -137,6 +113,7 @@ env.Append(
     CPPPATH=[
         ".",
         godot_headers_path,
+        wwise_godot_headers_path,
         cpp_bindings_path + "include/",
         cpp_bindings_path + "include/core/",
         cpp_bindings_path + "include/gen/",
@@ -147,7 +124,6 @@ env.Append(
 )
 env.Append(LIBPATH=[
         cpp_bindings_path + "bin/",
-        wwise_sdk_libs_path,
         steamaudio_libs_path
     ]
 )
@@ -155,21 +131,6 @@ env.Append(LIBPATH=[
 env.Append(CPPPATH=["src/"])
 
 sources = Glob("src/*.cpp")
-
-#env.Append(LIBS=["SteamAudioWwiseFX"])
-    
-
-#if env["target"] in ("editor", "template_debug"):
-#    if env["platform"] == "windows":
-#        env.Append(LIBS=["msacm32", "ws2_32"])
-
-#if env["target"] == "editor" and env["platform"] == "linux":
-#    env.Append(LIBS=["tbb"])
-
-#if env["platform"] == "windows":
-#    env.Append(LIBS=["advapi32", "user32", "ole32"])
-#if env["platform"] == "linux":
-#    env.Append(LIBS=["pthread", "dl"])
 
 if env["platform"] == "windows":
     library = env.SharedLibrary(

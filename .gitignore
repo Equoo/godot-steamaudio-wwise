@@ -5,6 +5,7 @@ compile_flags.txt
 *.pdb
 *.os
 *.obj
+*.a
 *.o
 *.so*
 *.dll
@@ -14,3 +15,7 @@ compile_flags.txt
 *.dylib
 .sconsign.dblite
 src/gen/*
+
+project/Wwise/
+GeneratedSoundBanks/
+Wwise/

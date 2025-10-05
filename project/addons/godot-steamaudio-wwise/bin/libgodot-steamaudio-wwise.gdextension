@@ -19,6 +19,7 @@ SteamAudioWwiseDynamicGeometry = "res://addons/godot-steamaudio-wwise/icons/stea
 
 windows.x86_64.debug = {
     "res://addons/godot-steamaudio-wwise/bin/phonon.dll": "",
+    "res://addons/Wwise/native/lib/win64/template_debug/profile/DSP/SteamAudioWwise.dll": "",
     "res://addons/godot-steamaudio-wwise/bin/phonon.lib": "",
     "res://addons/godot-steamaudio-wwise/bin/TrueAudioNext.dll": "",
     "res://addons/godot-steamaudio-wwise/bin/GPUUtilities.dll": ""
