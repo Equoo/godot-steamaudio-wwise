@@ -4,3 +4,6 @@
 [submodule "libs/steamaudio"]
 	path = libs/steamaudio
 	url = https://github.com/ValveSoftware/steam-audio.git
+[submodule "libs/wwise-godot"]
+	path = libs/wwise-godot
+	url = https://github.com/alessandrofama/wwise-godot-integration.git
